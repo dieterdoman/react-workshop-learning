@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Image, Form } from 'semantic-ui-react';
+import { Button, Image, Form, Loader, Segment, Dimmer } from 'semantic-ui-react';
 import NumberInput from 'semantic-ui-react-numberinput';
 import './App.css';
 import 'semantic-ui-css/semantic.min.css';
@@ -14,12 +14,26 @@ class App extends Component {
         super(props);
         this.state = {
             fellowshipName: '',
-            men: '2',
-            elves: '1',
-            dwarves: '1',
-            hobbits: '4',
-            wizards: '1'
+            men: '0',
+            elves: '0',
+            dwarves: '0',
+            hobbits: '0',
+            wizards: '0',
+            loading: true,
         };
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({
+                men: '2',
+                elves: '1',
+                dwarves: '1',
+                hobbits: '4',
+                wizards: '1',
+                loading: false
+            });
+        }, 2000);
     }
 
     changeFellowshipName = (e) => {
@@ -47,47 +61,55 @@ class App extends Component {
     };
 
     render() {
-        return (
-           <div className="fellowship-creator">
-               <Form>
-                <Form.Field>
-                  <label>Fellowship Name</label>
-                  <input placeholder='Fellowship name' value={this.state.fellowshipName} onChange={this.changeFellowshipName}/>
-                </Form.Field>
-                <Form.Field>
-                    <label>Men:</label>
-                    <Image src={menImage} size='medium' />
-                    <br/>
-                    <NumberInput value={this.state.men} onChange={this.changeMen} />
-                </Form.Field>
-                <Form.Field>
-                    <label>Elves:</label>
-                    <Image src={elvesImage} size='medium' />
-                    <br/>
-                    <NumberInput value={this.state.elves} onChange={this.changeElves} />
-                </Form.Field>
-                <Form.Field>
-                    <label>Dwarves:</label>
-                    <Image src={dwarvesImage} size='medium' />
-                    <br/>
-                    <NumberInput value={this.state.dwarves} onChange={this.changeDwarves} />
-                </Form.Field>
-                <Form.Field>
-                    <label>Hobbits:</label>
-                    <Image src={hobbitsImage} size='medium' />
-                    <br/>
-                    <NumberInput value={this.state.hobbits} onChange={this.changeHobbits} />
-                </Form.Field>
-                <Form.Field>
-                    <label>Wizards:</label>
-                    <Image src={wizardsImage} size='medium' />
-                    <br/>
-                    <NumberInput value={this.state.wizards} onChange={this.changeWizards} />
-                </Form.Field>
-                <Button type='submit' onClick={() => alert(JSON.stringify(this.state))}>Declare the fellowship</Button>
-              </Form>
-          </div>
-       );
+        if (this.state.loading) {
+            return (
+                <Loader active inline='centered' />
+            )
+        } else {
+            return (
+                <div className="fellowship-creator">
+                    <Form>
+                        <Form.Field>
+                            <label>Fellowship Name</label>
+                            <input placeholder='Fellowship name' value={this.state.fellowshipName}
+                                   onChange={this.changeFellowshipName}/>
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Men:</label>
+                            <Image src={menImage} size='medium'/>
+                            <br/>
+                            <NumberInput value={this.state.men} onChange={this.changeMen}/>
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Elves:</label>
+                            <Image src={elvesImage} size='medium'/>
+                            <br/>
+                            <NumberInput value={this.state.elves} onChange={this.changeElves}/>
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Dwarves:</label>
+                            <Image src={dwarvesImage} size='medium'/>
+                            <br/>
+                            <NumberInput value={this.state.dwarves} onChange={this.changeDwarves}/>
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Hobbits:</label>
+                            <Image src={hobbitsImage} size='medium'/>
+                            <br/>
+                            <NumberInput value={this.state.hobbits} onChange={this.changeHobbits}/>
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Wizards:</label>
+                            <Image src={wizardsImage} size='medium'/>
+                            <br/>
+                            <NumberInput value={this.state.wizards} onChange={this.changeWizards}/>
+                        </Form.Field>
+                        <Button type='submit' onClick={() => alert(JSON.stringify(this.state))}>Declare the
+                            fellowship</Button>
+                    </Form>
+                </div>
+            );
+        }
     }
 }
 
